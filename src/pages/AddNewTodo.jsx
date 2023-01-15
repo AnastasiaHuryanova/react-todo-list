@@ -5,14 +5,11 @@ import { Link } from "react-router-dom";
 const AddNewTodo = () => {
   const [newToDo, setNewTodo] = useState("");
   const [toDos, setToDos] = useContext(ToDosContext);
-  const []
 
   const addTodo = () => {
     if (!newToDo) return;
-    setToDos([newToDo, ...toDos]);
+    setToDos([{ value: newToDo, disabled: true }, ...toDos]);
   };
-
-  
 
   const deleteTodo = (index) => {
     const toDosCopy = [...toDos];
@@ -20,23 +17,23 @@ const AddNewTodo = () => {
     setToDos(toDosCopy);
   };
 
-  const editTodo = (event,index) => {
-    console.log(index);
-    console.log(event.target.value);
+  const editTodo = (event, index) => {
     const toDosCopy = [...toDos];
-    toDosCopy[index] = event.target.value;
+    toDosCopy[index].value = event.target.value;
     setToDos(toDosCopy);
   };
 
-  const setDisabled = () => {
-
-  }
+  const setDisabled = (index) => {
+    const toDosCopy = [...toDos];
+    toDosCopy[index].disabled = !toDosCopy[index].disabled;
+    setToDos(toDosCopy);
+  };
 
   return (
     <>
       <h1>Edit todos</h1>
       <input
-        value={newToDo}
+        value={newToDo.value}
         placeholder="write here your todo"
         onChange={(event) => {
           setNewTodo(event.target.value);
@@ -48,12 +45,12 @@ const AddNewTodo = () => {
       {toDos.map((toDo, index) => {
         return (
           <Fragment key={index}>
-            <input  
-            value={toDo} 
-            disabled = {false} 
-            onChange={(event)=>{
-              editTodo(event,index)
-            }}
+            <input
+              value={toDo.value}
+              disabled={toDo.disabled}
+              onChange={(event) => {
+                editTodo(event, index);
+              }}
             />
 
             <button
@@ -63,7 +60,13 @@ const AddNewTodo = () => {
             >
               delete task
             </button>
-            <button onClick={() => {setDisabled()}}>edit task</button>
+            <button
+              onClick={() => {
+                setDisabled(index);
+              }}
+            >
+              edit task
+            </button>
             <br />
           </Fragment>
         );

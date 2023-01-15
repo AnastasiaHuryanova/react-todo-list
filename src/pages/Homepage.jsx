@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const Homepage = () => {
 
-  const [toDos, setToDos] = useContext(ToDosContext);
+  const [toDos] = useContext(ToDosContext);
 
   return (
     <>
@@ -12,7 +12,7 @@ const Homepage = () => {
       <Link to = "/addnewtodo"><button>add todo</button></Link>
       <ul>
         {toDos.map((toDo, index) => {
-          return <li key={index}>{toDo}</li>;
+          return <li key={index}>{toDo.value}</li>;
         })}
       </ul>
     </>
