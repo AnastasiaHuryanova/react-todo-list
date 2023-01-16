@@ -16,7 +16,7 @@ const AddNewTodo = () => {
 
   const addTodo = () => {
     if (!newToDo) return;
-    setToDos([{ value: newToDo, disabled: true }, ...toDos]);
+    setToDos([{ value: newToDo, disabled: true, createdAt:new Date(), updatedAt:new Date()}, ...toDos]);
   };
 
   const deleteTodo = (index) => {
@@ -34,6 +34,7 @@ const AddNewTodo = () => {
   const setDisabled = (index) => {
     const toDosCopy = [...toDos];
     toDosCopy[index].disabled = !toDosCopy[index].disabled;
+    toDosCopy[index].updatedAt = new Date();
     setToDos(toDosCopy);
   };
 
