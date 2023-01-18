@@ -15,15 +15,15 @@ const Homepage = () => {
     <Box
       sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
     >
-      <Typography>Todo List</Typography>
+      <Typography sx={{ m: 3 }}>Todo List</Typography>
       <Link style={{ textDecoration: "none" }} to="/addnewtodo">
-        <Button variant="contained">manage todos</Button>
+        <Button sx={{ width: "30vw", borderRadius:"30px", m:2, p:2}}variant="contained">manage todos</Button>
       </Link>
-      <Grid container sx={{ maxWidth: "70vw", bgcolor: "#ede2e1" }}>
+      <Grid container sx={{ width: "90vw",borderRadius:"30px", m:2, p:2, bgcolor:"#ede2e1"}}>
         {toDos.map((toDo, index) => {
           return (
             <Grid key={index} xs={2}>
-              <Card variant="outlined" sx={{ m: 2, maxWidth: "300px" }}>
+              <Card variant="outlined" sx={{ m: 2, maxWidth: "30vw", borderRadius:"30px"}}>
                 <CardContent>
                   <Typography
                     sx={{ fontSize: 14, float: "right" }}
