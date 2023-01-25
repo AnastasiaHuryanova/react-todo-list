@@ -7,6 +7,7 @@ import { CardContent, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { getDateAsString } from "../utils/datehandler";
 import Grid from "@mui/material/Unstable_Grid2";
+import { mapPriorityToColor } from "../utils/priorityMapper";
 
 const Homepage = () => {
   const [toDos] = useContext(ToDosContext);
@@ -23,7 +24,7 @@ const Homepage = () => {
         {toDos.map((toDo, index) => {
           return (
             <Grid key={index} xs={2}>
-              <Card variant="outlined" sx={{ m: 2, maxWidth: "30vw", borderRadius:"30px"}}>
+              <Card variant="outlined" sx={{ m: 2, maxWidth: "30vw", borderRadius:"30px", borderColor:mapPriorityToColor(toDo.priority)}}>
                 <CardContent>
                   <Typography
                     sx={{ fontSize: 14, float: "right" }}

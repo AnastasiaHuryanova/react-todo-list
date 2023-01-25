@@ -39,7 +39,7 @@ const HandleToDos = () => {
     setNewToDo({...newToDo, value})
   }
   
-  const editNewToDoPriority = (index, priority) => {
+  const editNewToDoPriority = ({priority}) => {
     setNewToDo({...newToDo, priority})
   }
   
@@ -56,7 +56,7 @@ const HandleToDos = () => {
     setToDos(toDosCopy);
   };
 
-  const editToDoPriority = (index, priority) => {
+  const editToDoPriority = ({index, priority}) => {
     const toDosCopy = [...toDos];
     toDosCopy[index].priority = priority;
     setToDos(toDosCopy);
