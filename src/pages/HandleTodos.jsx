@@ -1,44 +1,68 @@
 import { Fragment, useContext, useState } from "react";
 import { ToDosContext } from "../App";
 import { Link } from "react-router-dom";
-import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { Box, Typography, Fab } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import AddIcon from "@mui/icons-material/Add";
 import HomeIcon from "@mui/icons-material/Home";
+import PriorityRadioButton from "../components/switch/PriorityRadioButton";
 
-const AddNewTodo = () => {
-  const [newToDo, setNewTodo] = useState("");
+
+
+const HandleToDos = () => {
+  const [newToDo, setNewToDo] = useState({
+    value: "",
+    priority:"low",
+  });
+
   const [toDos, setToDos] = useContext(ToDosContext);
 
-  const addTodo = () => {
-    if (!newToDo) return;
+
+
+  const addNewToDo = () => {
+    if (!newToDo.value) return;
     setToDos([
       {
-        value: newToDo,
+        value: newToDo.value,
         disabled: true,
         createdAt: new Date(),
         updatedAt: new Date(),
+        priority: newToDo.priority,
       },
       ...toDos,
     ]);
   };
 
-  const deleteTodo = (index) => {
+  const editNewToDoValue = (value) => {
+    setNewToDo({...newToDo, value})
+  }
+  
+  const editNewToDoPriority = (index, priority) => {
+    setNewToDo({...newToDo, priority})
+  }
+  
+
+  const deleteToDo = (index) => {
     const toDosCopy = [...toDos];
     toDosCopy.splice(index, 1);
     setToDos(toDosCopy);
   };
 
-  const editTodo = (event, index) => {
+  const editToDoValue = (value, index) => {
     const toDosCopy = [...toDos];
-    toDosCopy[index].value = event.target.value;
+    toDosCopy[index].value = value;
     setToDos(toDosCopy);
   };
 
-  const setDisabled = (index) => {
+  const editToDoPriority = (index, priority) => {
+    const toDosCopy = [...toDos];
+    toDosCopy[index].priority = priority;
+    setToDos(toDosCopy);
+  }
+
+  const editToDoDisabled = (index) => {
     const toDosCopy = [...toDos];
     toDosCopy[index].disabled = !toDosCopy[index].disabled;
     toDosCopy[index].updatedAt = new Date();
@@ -58,22 +82,25 @@ const AddNewTodo = () => {
           size="small"
        
           onChange={(event) => {
-            setNewTodo(event.target.value);
+            editNewToDoValue(event.target.value);
           }}
         />
         <Fab
           aria-label="add"
           margin="normal"
           size="small"
-          onClick={addTodo}
+          color="primary"
+          onClick={addNewToDo}
         >
           <AddIcon />
         </Fab>
       </Box>
+      <PriorityRadioButton priority={newToDo.priority} setPriority = {editNewToDoPriority}/>
 
       {toDos.map((toDo, index) => {
         return (
           <Box sx={{ display: "flex", alignItems:"center", m:2}} key={index}>
+            <></>
             <TextField
               label="edit todo"
               variant="outlined"
@@ -82,9 +109,10 @@ const AddNewTodo = () => {
               value={toDo.value}
               disabled={toDo.disabled}
               onChange={(event) => {
-                editTodo(event, index);
+                editToDoValue(event.target.value, index);
               }}
             />
+                  <PriorityRadioButton priority={toDo.priority} setPriority={editToDoPriority} index={index}/>
 
             <Fab
               color="delete"
@@ -92,7 +120,7 @@ const AddNewTodo = () => {
               margin="normal"
               size="small"
               onClick={() => {
-                deleteTodo(index);
+                deleteToDo(index);
               }}
             >
               <DeleteIcon />
@@ -103,7 +131,7 @@ const AddNewTodo = () => {
               margin="normal"
               size="small"
               onClick={() => {
-                setDisabled(index);
+                editToDoDisabled(index);
               }}
             >
               <ModeEditIcon />
@@ -113,7 +141,7 @@ const AddNewTodo = () => {
       })}
 
       <Link style={{ textDecoration: "none" }} to="/">
-        <Fab aria-label="home" sx={{ m: 3 }}>
+        <Fab aria-label="home" color="primary" sx={{ m: 3 }}>
           <HomeIcon />
         </Fab>
       </Link>
@@ -121,4 +149,4 @@ const AddNewTodo = () => {
   );
 };
 
-export default AddNewTodo;
+export default HandleToDos;
